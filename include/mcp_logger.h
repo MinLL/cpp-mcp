@@ -111,10 +111,12 @@ private:
     std::mutex mutex_;
 };
 
+#ifndef LOG_DEBUG
 #define LOG_DEBUG(...) mcp::logger::instance().debug(__VA_ARGS__)
 #define LOG_INFO(...) mcp::logger::instance().info(__VA_ARGS__)
 #define LOG_WARNING(...) mcp::logger::instance().warning(__VA_ARGS__)
 #define LOG_ERROR(...) mcp::logger::instance().error(__VA_ARGS__)
+#endif
 
 inline void set_log_level(log_level level) {
     mcp::logger::instance().set_level(level);
