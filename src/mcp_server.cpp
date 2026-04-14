@@ -760,12 +760,33 @@ void server::register_session_cleanup(const std::string& key, session_cleanup_ha
 std::vector<tool> server::get_tools() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::vector<tool> tools;
-    
+
     for (const auto& [name, tool_pair] : tools_) {
         tools.push_back(tool_pair.first);
     }
-    
+
     return tools;
+}
+
+json server::call_tool(const std::string& tool_name, const json& arguments) {
+    tool_handler handler;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = tools_.find(tool_name);
+        if (it == tools_.end()) {
+            throw mcp_exception(error_code::invalid_params, "Tool not found: " + tool_name);
+        }
+        handler = it->second.second;
+    }
+
+    json tool_result = {{"isError", false}};
+    try {
+        tool_result["content"] = handler(arguments, "direct");
+    } catch (const std::exception& e) {
+        tool_result["isError"] = true;
+        tool_result["content"] = json::array({{{"type", "text"}, {"text", e.what()}}});
+    }
+    return tool_result;
 }
 
 void server::set_auth_handler(auth_handler handler) {

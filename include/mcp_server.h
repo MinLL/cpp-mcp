@@ -362,6 +362,15 @@ public:
     std::vector<tool> get_tools() const;
     
     /**
+     * @brief Call a registered tool directly (in-process, no network)
+     * @param tool_name Name of the tool to call
+     * @param arguments Tool arguments as JSON
+     * @return JSON result from the tool handler
+     * @throws mcp_exception if tool not found
+     */
+    json call_tool(const std::string& tool_name, const json& arguments);
+
+    /**
      * @brief Set authentication handler
      * @param handler Function that takes a token and returns true if valid
      * @note The handler should return true if the token is valid, otherwise false
