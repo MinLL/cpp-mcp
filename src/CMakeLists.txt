@@ -21,7 +21,7 @@ target_compile_definitions(${TARGET} PUBLIC
     MCP_SESSION_TIMEOUT=${MCP_SESSION_TIMEOUT}
 )
 
-target_link_libraries(${TARGET} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${TARGET} PUBLIC ${CMAKE_THREAD_LIBS_INIT} nlohmann_json::nlohmann_json httplib::httplib)
 
 if(WIN32)
     target_link_libraries(${TARGET} PUBLIC ws2_32 wsock32)
