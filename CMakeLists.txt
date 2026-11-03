@@ -29,6 +29,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find required packages
 find_package(Threads REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 # Third-party header-only dependencies: nlohmann_json and cpp-httplib.
 # An already-defined target (parent project) or an installed package (e.g. vcpkg) is preferred;

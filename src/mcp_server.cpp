@@ -3,7 +3,7 @@
  * @brief Implementation of the MCP server
  * 
  * This file implements the server-side functionality for the Model Context Protocol.
- * Follows the 2024-11-05 basic protocol specification.
+ * Supports protocol versions: 2024-11-05, 2025-03-26, 2025-06-18, 2025-11-25
  */
 
 #include "mcp_server.h"
@@ -1457,6 +1457,8 @@ json server::handle_initialize(const request& req, const std::string& session_id
         LOG_WARNING("Client requested version ", requested_version,
                     ", server supports ", MCP_VERSION, ". Responding with server version.");
     }
+    
+    LOG_INFO("Negotiated protocol version: ", negotiated_version);
 
     // Extract client info
     std::string client_name = "UnknownClient";
